@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cegah Hipertensi</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #fff5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, #b22222, #8b0000);
+            color: white;
+            text-align: center;
+            padding: 3rem 1rem;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        nav {
+            background: #8b0000;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0.5rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        /* hidden checkbox for mobile menu */
+        #menu-toggle {
+            display: none;
+        }
+
+        .menu-icon {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .menu-icon span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 1rem;
+        }
+
+        .nav-menu li a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 0.8rem;
+            border-radius: 5px;
+            transition: background 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .nav-menu li a:hover {
+            background: #b22222;
+        }
+
+        /* responsive */
+        @media (max-width: 768px) {
+            .menu-icon {
+                display: flex;
+            }
+
+            .nav-menu {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                background: #8b0000;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                padding: 1rem;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+            }
+
+            #menu-toggle:checked ~ .nav-menu {
+                display: flex;
+            }
+
+            .nav-menu li {
+                margin: 0.5rem 0;
+            }
+        }
+
+        section {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+            scroll-margin-top: 70px;
+        }
+
+        h2 {
+            color: #8b0000;
+            border-bottom: 3px solid #b22222;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            flex: 1 1 200px;
+            text-align: center;
+            font-weight: 600;
+            color: #8b0000;
+            border-left: 5px solid #b22222;
+        }
+
+        ul, ol {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: #8b0000;
+            color: white;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .risk-box {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .risk-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .risk-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #b22222; /* warna checkbox merah */
+        }
+
+        .sub-title {
+            color: #8b0000;
+            margin: 1rem 0 0.5rem;
+        }
+
+        .risk-indicator {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            margin-top: 1rem;
+        }
+
+        .risk-bar {
+            width: 100%;
+            height: 20px;
+            background: #e0e0e0;
+            border-radius: 20px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        #risk-progress {
+            height: 100%;
+            width: 0%;
+            background: #b22222;
+            transition: width 0.3s ease;
+        }
+
+        .risk-status {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0.5rem 0;
+        }
+
+        .risk-status.ringan { color: #28a745; }
+        .risk-status.sedang { color: #ffc107; }
+        .risk-status.tinggi { color: #dc3545; }
+
+        .risk-desc {
+            font-style: italic;
+            color: #555;
+        }
+
+        form {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        button {
+            background: #8b0000;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #b22222;
+        }
+
+        footer {
+            background: #8b0000;
+            color: white;
+            margin-top: 3rem;
+            padding: 2rem 1rem 0;
+        }
+
+        .footer-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-grid h3 {
+            margin-bottom: 1rem;
+            color: #f5b7b1;
+        }
+
+        .footer-menu {
+            list-style: none;
+        }
+
+        .footer-menu li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-menu a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer-menu a:hover {
+            text-decoration: underline;
+        }
+
+        .copyright {
+            text-align: center;
+            padding: 1.5rem 0;
+            margin-top: 2rem;
+            border-top: 1px solid #b22222;
+        }
+
+        /* smooth scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Cegah Hipertensi</h1>
+    <p>Edukasi & Pencegahan Tekanan Darah Tinggi</p>
+</header>
+
+<nav>
+    <div class="nav-container">
+        <div class="logo">HIPERTENSI</div>
+
+        <!-- checkbox untuk menu mobile -->
+        <input type="checkbox" id="menu-toggle">
+
+        <label for="menu-toggle" class="menu-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </label>
+
+        <ul class="nav-menu">
+            <li><a href="#pengertian">Pengertian</a></li>
+            <li><a href="#gejala">Gejala</a></li>
+            <li><a href="#penyebab">Penyebab</a></li>
+            <li><a href="#klasifikasi">Klasifikasi</a></li>
+            <li><a href="#pencegahan">Pencegahan</a></li>
+            <li><a href="#faktor">Faktor Risiko</a></li>
+            <li><a href="#konsultasi">Konsultasi</a></li>
+        </ul>
+    </div>
+</nav>
+
+<section id="pengertian">
+    <h2>Pengertian Hipertensi</h2>
+    <p>
+        Hipertensi adalah kondisi ketika tekanan darah berada di atas normal secara terus-menerus,
+        yaitu sistolik ≥140 mmHg dan/atau diastolik ≥90 mmHg. Hipertensi dikenal sebagai
+        <b>silent killer</b> karena sering tidak menimbulkan gejala.
+    </p>
+</section>
+
+<section id="gejala">
+    <h2>Gejala Hipertensi</h2>
+    <div class="card-container">
+        <div class="card">Sakit Kepala</div>
+        <div class="card">Pusing</div>
+        <div class="card">Sesak Napas</div>
+        <div class="card">Mudah Lelah</div>
+    </div>
+</section>
+
+<section id="penyebab">
+    <h2>Penyebab Hipertensi</h2>
+    <ul>
+        <li>Konsumsi garam berlebih</li>
+        <li>Kurang aktivitas fisik</li>
+        <li>Stres berkepanjangan</li>
+        <li>Obesitas</li>
+        <li>Faktor keturunan</li>
+    </ul>
+</section>
+
+<section id="klasifikasi">
+    <h2>Klasifikasi Tekanan Darah</h2>
+    <table>
+        <tr>
+            <th>Kategori</th>
+            <th>Sistolik (mmHg)</th>
+            <th>Diastolik (mmHg)</th>
+        </tr>
+        <tr>
+            <td>Normal</td>
+            <td>&lt;120</td>
+            <td>&lt;80</td>
+        </tr>
+        <tr>
+            <td>Pra-Hipertensi</td>
+            <td>120–139</td>
+            <td>80–89</td>
+        </tr>
+        <tr>
+            <td>Hipertensi Tahap 1</td>
+            <td>140–159</td>
+            <td>90–99</td>
+        </tr>
+        <tr>
+            <td>Hipertensi Tahap 2</td>
+            <td>≥160</td>
+            <td>≥100</td>
+        </tr>
+    </table>
+</section>
+
+<section id="pencegahan">
+    <h2>Pencegahan Hipertensi</h2>
+    <div class="card-container">
+        <div class="card">Kurangi Garam</div>
+        <div class="card">Olahraga Teratur</div>
+        <div class="card">Kelola Stres</div>
+    </div>
+</section>
+
+<section id="faktor">
+    <h2>Faktor Risiko Hipertensi</h2>
+    <p>Centang faktor yang sesuai dengan kondisi Anda:</p>
+
+    <div class="risk-box">
+        <label class="risk-item">
+            <input type="checkbox" class="risk-check">
+            <span>Konsumsi garam berlebih</span>
+        </label>
+        <label class="risk-item">
+            <input type="checkbox" class="risk-check">
+            <span>Kurang aktivitas fisik</span>
+        </label>
+        <label class="risk-item">
+            <input type="checkbox" class="risk-check">
+            <span>Stres berkepanjangan</span>
+        </label>
+        <label class="risk-item">
+            <input type="checkbox" class="risk-check">
+            <span>Merokok atau alkohol</span>
+        </label>
+        <label class="risk-item">
+            <input type="checkbox" class="risk-check">
+            <span>Berat badan berlebih</span>
+        </label>
+        <label class="risk-item">
+            <input type="checkbox" class="risk-check">
+            <span>Riwayat keluarga hipertensi</span>
+        </label>
+    </div>
+
+    <h3 class="sub-title">Indikator Risiko Hipertensi</h3>
+
+    <div class="risk-indicator">
+        <div class="risk-bar">
+            <div id="risk-progress"></div>
+        </div>
+        <div id="risk-status" class="risk-status ringan">
+            Risiko Ringan
+        </div>
+        <p id="risk-desc" class="risk-desc">
+            Risiko masih rendah. Pertahankan gaya hidup sehat.
+        </p>
+    </div>
+</section>
+
+<section id="konsultasi">
+    <h2>Form Konsultasi</h2>
+    <form onsubmit="alert('Konsultasi Anda telah dikirim (demo).'); return false;">
+        <input type="text" placeholder="Nama Lengkap" required>
+        <input type="number" placeholder="Usia" required>
+        <select required>
+            <option value="">Pilih Jenis Kelamin</option>
+            <option>Laki-laki</option>
+            <option>Perempuan</option>
+        </select>
+        <textarea rows="4" placeholder="Keluhan"></textarea>
+        <button type="submit">Kirim Konsultasi</button>
+    </form>
+</section>
+
+<footer>
+    <div class="footer-grid">
+        <div>
+            <h3>Tentang Website</h3>
+            <p>Website edukasi kesehatan untuk mencegah hipertensi.</p>
+        </div>
+        <div>
+            <h3>Menu</h3>
+            <ul class="footer-menu">
+                <li><a href="#pengertian">Pengertian</a></li>
+                <li><a href="#gejala">Gejala</a></li>
+                <li><a href="#penyebab">Penyebab</a></li>
+                <li><a href="#klasifikasi">Klasifikasi</a></li>
+                <li><a href="#pencegahan">Pencegahan</a></li>
+                <li><a href="#faktor">Faktor Risiko</a></li>
+            </ul>
+        </div>
+        <div>
+            <h3>Kontak</h3>
+            <p>Email: nafilaffayzaramadhani@gmail.com</p>
+            <p>Telp: +62 881-0222-25777</p>
+            <p>Instagram: @nafilaffayzaa</p>
+        </div>
+    </div>
+    <div class="copyright">
+        © 2026 Edukasi Kesehatan
+    </div>
+</footer>
+
+<script>
+    // Indikator risiko berdasarkan checkbox
+    const checkboxes = document.querySelectorAll('.risk-check');
+    const progressBar = document.getElementById('risk-progress');
+    const statusDiv = document.getElementById('risk-status');
+    const descP = document.getElementById('risk-desc');
+
+    function updateRisk() {
+        const total = checkboxes.length; // 6
+        let checkedCount = 0;
+        checkboxes.forEach(cb => {
+            if (cb.checked) checkedCount++;
+        });
+
+        const percent = (checkedCount / total) * 100;
+        progressBar.style.width = percent + '%';
+
+        let statusText = '';
+        let statusClass = '';
+        let descText = '';
+
+        if (checkedCount <= 2) {
+            statusText = 'Risiko Ringan';
+            statusClass = 'ringan';
+            descText = 'Risiko masih rendah. Pertahankan gaya hidup sehat.';
+        } else if (checkedCount <= 4) {
+            statusText = 'Risiko Sedang';
+            statusClass = 'sedang';
+            descText = 'Ada beberapa faktor risiko. Mulai perbaiki pola hidup.';
+        } else {
+            statusText = 'Risiko Tinggi';
+            statusClass = 'tinggi';
+            descText = 'Risiko tinggi terkena hipertensi. Segera konsultasi ke dokter.';
+        }
+
+        statusDiv.textContent = statusText;
+        statusDiv.className = 'risk-status ' + statusClass;
+        descP.textContent = descText;
+    }
+
+    // Tambahkan event listener ke semua checkbox
+    checkboxes.forEach(cb => {
+        cb.addEventListener('change', updateRisk);
+    });
+
+    // Inisialisasi pertama kali
+    updateRisk();
+</script>
+
+</body>
+</html>
